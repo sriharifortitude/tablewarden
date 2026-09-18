@@ -1,0 +1,68 @@
+# Example: a small shop's tables as CSV, with deliberate defects so every
+# kind of check has something to say. Run:
+#
+#   tablewarden run examples/shop.toml
+
+[source]
+kind = "csv"
+path = "shop"            # relative to this file; each name.csv becomes table `name`
+
+[[check]]
+kind = "not_null"
+table = "orders"
+column = "customer_email"
+
+[[check]]
+kind = "unique"
+table = "orders"
+column = "id"
+
+[[check]]
+kind = "accepted_values"
+table = "orders"
+column = "status"
+values = ["new", "paid", "shipped", "cancelled"]
+
+[[check]]
+kind = "null_rate"
+table = "orders"
+column = "customer_email"
+max_rate = 0.2
+
+[[check]]
+kind = "row_count"
+table = "orders"
+min = 1
+max = 1000
+
+[[check]]
+kind = "references"
+table = "order_lines"
+column = "order_id"
+to_table = "orders"
+to_column = "id"
+
+[[check]]
+kind = "unique"
+table = "order_lines"
+columns = ["order_id", "sku"]
+
+[[check]]
+kind = "freshness"
+table = "orders"
+column = "created_at"
+max_age = "2h"
+severity = "warn"        # static example data: this will always be stale
+
+[[check]]
+kind = "sql"
+name = "orders.no_negative_totals"
+query = "select count(*) from orders where total < 0"
+expect = 0
+
+[[check]]
+kind = "sql"
+name = "orders.few_unprocessed"
+query = "select count(*) from orders where status = 'new'"
+expect_max = 1
+severity = "warn"
