@@ -5,8 +5,10 @@ TOML file and run as a CI gate. Eight kinds of check, each compiled to one
 SQL statement; failing rows are sampled into the report; exit codes and a
 JUnit file are what your pipeline reads.
 
-    pip install "tablewarden[postgres]"
+    pip install "tablewarden[postgres] @ git+https://github.com/sriharifortitude/tablewarden@v0.1.0"
     tablewarden run checks.toml --format junit --output report.xml
+
+Not on PyPI yet; the line above installs the tagged release from GitHub.
 
 ```toml
 [source]
