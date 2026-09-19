@@ -1,5 +1,7 @@
 # tablewarden
 
+[![CI](https://github.com/sriharifortitude/tablewarden/actions/workflows/ci.yml/badge.svg)](https://github.com/sriharifortitude/tablewarden/actions/workflows/ci.yml)
+
 Data-quality checks for Postgres, SQLite and CSV files, declared in a
 TOML file and run as a CI gate. Eight kinds of check, each compiled to one
 SQL statement; failing rows are sampled into the report; exit codes and a
